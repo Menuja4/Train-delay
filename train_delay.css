@@ -1,0 +1,44 @@
+
+
+/* Headings */
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Form elements */
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* Delay result styling */
+h3 {
+    margin-top: 20px;
+    color: #006600;
+}
