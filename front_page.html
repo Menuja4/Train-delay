@@ -1,15 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Train Delay Predictor UI</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Train Delay Predictor</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Welcome to the Train Delay Predictor</h1>
-    <p>This is the front-end UI page.</p>
-    
-    <a href="{{ url_for('index') }}">
-        <button>Predict Train Delay</button>
-    </a>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <video autoplay muted loop id="bg-video">
+      <source src="train.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+
+    <div class="overlay"></div>
+    <div class="content">
+      <h1>🚆 Welcome to the <span>Train Delay Predictor</span></h1>
+      <p>Predict train delays accurately with AI-powered insights.</p>
+      <button onclick="window.location.href='predict.html'">Predict Train Delay</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Train Delay Predictor | Designed by Rasindu</p>
+  </footer>
+
 </body>
 </html>
