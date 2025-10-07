@@ -1,66 +1,60 @@
 
-<!--just a structure-->
-
 <!DOCTYPE html>
 <html>
 <head>
-    
     <title>Train Delay Predictor</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-	
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
- 
-        <h2>Train Delay Predictor</h2>
-        <form method="POST">
-            <label>Train Name:</label>
-            <select name="train_name">
-                <option>Udarata Menike</option>
-                <option>Podi Menike</option>
-                <option>Ruhunu Kumari</option>
-                <option>Yal Devi</option>
-                <option>Udaya Devi</option>
-                <option>Rajarata Rejini</option>
-                <option>Intercity Express</option>
-                <option>Samudra Devi</option>
-            </select><br>
+    <h2>Train Delay Predictor</h2>
+    <form method="POST">
+        <label>Train Name:</label>
+        <select name="train_name">
+            <option>Udarata Menike</option>
+            <option>Podi Menike</option>
+            <option>Ruhunu Kumari</option>
+            <option>Yal Devi</option>
+            <option>Udaya Devi</option>
+            <option>Rajarata Rejini</option>
+            <option>Intercity Express</option>
+            <option>Samudra Devi</option>
+        </select><br>
 
-            <label>Route:</label>
-            <select name="route">
-                <option>Colombo–Kandy</option>
-                <option>Colombo–Badulla</option>
-                <option>Colombo–Matara</option>
-                <option>Colombo–Jaffna</option>
-                <option>Colombo–Batticaloa</option>
-                <option>Colombo–Anuradhapura</option>
-                <option>Kandy–Colombo</option>
-                <option>Matara–Colombo</option>
-            </select><br>
+        <label>Route:</label>
+        <select name="route">
+            <option>Colombo–Kandy</option>
+            <option>Colombo–Badulla</option>
+            <option>Colombo–Matara</option>
+            <option>Colombo–Jaffna</option>
+            <option>Colombo–Batticaloa</option>
+            <option>Colombo–Anuradhapura</option>
+            <option>Kandy–Colombo</option>
+            <option>Matara–Colombo</option>
+        </select><br>
 
-            <label>Distance (km):</label>
-            <input type="number" name="distance_km" value="121"><br>
+        <label>Distance (km):</label>
+        <input type="number" name="distance_km" value="121"><br>
 
-            <label>Departure Hour (0-23):</label>
-            <input type="number" name="departure_hour" value="6"><br>
+        <label>Departure Hour (0-23):</label>
+        <input type="number" name="departure_hour" value="6"><br>
 
-            <label>Temperature (°C):</label>
-            <input type="number" name="temperature" value="25"><br>
+        <label>Temperature (°C):</label>
+        <input type="number" name="temperature" value="25"><br>
 
-            <label>Weather:</label>
-            <select name="weather">
-                <option>sunny</option>
-                <option>rainy</option>
-                <option>cloudy</option>
-            </select><br><br>
+        <label>Weather:</label>
+        <select name="weather">
+            <option>sunny</option>
+            <option>rainy</option>
+            <option>cloudy</option>
+        </select><br><br>
 
-            <button type="submit">Predict Delay</button>
-        </form>
+        <button type="submit">Predict Delay</button>
+    </form>
 
-        {% if delay is not none %}
-            <h3>Predicted Delay: {{ delay }} minutes</h3>
-        {% endif %}
-   
+    {% if delay is not none %}
+        <h3>Predicted Delay: {{ delay }} minutes</h3>
+    {% endif %}
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="script.js"></script>
 </body>
 </html>
