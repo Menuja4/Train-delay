@@ -1,44 +1,57 @@
 
+/*just a structure*/
 
-/* Headings */
-h2 {
-    color: #333;
-    margin-bottom: 20px;
+body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
 }
 
-/* Form elements */
+h2 {
+    color: #333;
+    text-align: center;
+}
+
+form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
 label {
-    display: block;
-    margin-top: 10px;
+    display: inline-block;
+    width: 150px;
+    margin-bottom: 10px;
     font-weight: bold;
 }
 
-input, select {
-    width: 100%;
+select, input[type="number"] {
+    width: 200px;
     padding: 8px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 15px;
-    background: #007BFF;
+    background-color: #007bff;
     color: white;
+    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
 }
 
 button:hover {
-    background: #0056b3;
+    background-color: #0056b3;
 }
 
-/* Delay result styling */
 h3 {
+    text-align: center;
+    color: #333;
     margin-top: 20px;
-    color: #006600;
 }
