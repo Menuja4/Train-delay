@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Train Delay Predictor — Neo-Noir</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#050407;
+    --neon1: #6ff1ff; /* cyan */
+    --neon2: #a04bff; /* purple */
+    --neon3: #ff8b4b; /* orange */
+    --glass: rgba(255,255,255,0.04);
+  }
+  html,body{height:100%;margin:0;background:var(--bg-deep);font-family:Inter,system-ui,Arial;}
+  canvas#bg{position:fixed;inset:0;z-index:0;display:block}
+  .grad{
+    position:fixed;inset:0;pointer-events:none;z-index:1;
+    background:
+      radial-gradient(800px 400px at 10% 20%, rgba(160,75,255,0.08), transparent 12%),
+      radial-gradient(800px 600px at 90% 70%, rgba(255,139,75,0.06), transparent 12%),
+      linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.7));
+    mix-blend-mode:screen;filter:blur(14px);
+  }
+
+  /* container */
+  .wrap{
+    position:relative; z-index:5; min-height:100vh;
+    display:flex;align-items:center;justify-content:center;padding:48px;
+  }
+  .card{
+    width:min(900px,95%); border-radius:18px; padding:42px;
+    backdrop-filter: blur(8px) saturate(1.2);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.04);
+    box-shadow:
+      0 30px 80px rgba(0,0,0,0.6),
+      0 0 120px rgba(160,75,255,0.035);
+    position:relative; overflow:hidden;
+  }
+
+  /* giant title */
+  .title{
+    font-family:Orbitron,monospace;
+    font-size: clamp(30px,6vw,56px);
+    line-height:0.95;
+    background: linear-gradient(90deg,var(--neon1),var(--neon2),var(--neon3));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    text-shadow: 0 6px 28px rgba(160,75,255,0.08), 0 0 28px rgba(0,255,255,0.06);
+    margin:0;
+  }
+  .subtitle{ color: #bfc5d0; margin-top:10px; font-size:16px; opacity:0.9 }
+
+  /* controls */
+  .controls{ display:flex; gap:14px; margin-top:28px; align-items:center; flex-wrap:wrap }
+  .btn{
+    appearance:none;border:0;padding:14px 28px;border-radius:12px;
+    font-weight:600;cursor:pointer;letter-spacing:0.6px;
+    background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    color:#fff;border:1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 20px rgba(0,0,0,0.15);
+    transition: transform .22s ease, box-shadow .22s ease;
+  }
+  .cta{
+    background: linear-gradient(90deg,var(--neon1),var(--neon3));
+    color:#071019;border:none; box-shadow: 0 10px 40px rgba(0,255,255,0.12);
+    transform: translateZ(0);
+  }
+  .btn:hover{ transform: translateY(-6px); }
+
+  /* hologram lines */
+  .holo {
+    position:absolute; inset:0; pointer-events:none; z-index:2;
+    background-image:
+      linear-gradient(180deg, rgba(255,255,255,0.03) 0 1px, transparent 1px);
+    background-size: 100% 60px;
+    mix-blend-mode: overlay; opacity:0.6;
+    transform: translateZ(0);
+  }
+
+  /* small footer HUD */
+  .hud{ display:flex; gap:14px; margin-top:22px; color:#9aa3b2; font-size:13px; align-items:center;}
+  .chip{ padding:8px 12px; border-radius:8px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03) }
+
+  /* subtle neon streak on edges */
+  .edge-neon{
+    position:absolute; top:0; left:0; right:0; height:140px; pointer-events:none;
+    background: linear-gradient(180deg, rgba(160,75,255,0.06), transparent 40%);
+    filter: blur(30px); z-index:1;
+  }
+
+  /* responsive tweaks */
+  @media (max-width:640px){
+    .card{padding:28px;border-radius:14px}
+    .controls{justify-content:center}
+  }
+
+  /* tiny animated rain overlay (CSS fallback) */
+  .rain-frame{
+    position:absolute; inset:0; pointer-events:none; z-index:6;
+    mix-blend-mode: screen;
+  }
+  /* note: the heavy rain visuals are drawn with canvas below */
+</style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="grad"></div>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="edge-neon"></div>
+      <h1 class="title">TRAIN DELAY — PREDICTOR</h1>
+      <div class="subtitle">Cinematic, probabilistic inference for rail networks. Forecast with confidence intervals & live indices.</div>
+
+      <div class="controls">
+        <button class="btn">Status Board</button>
+        <button class="btn">Live Network</button>
+        <button class="btn cta"  onclick="window.location.href='{{ url_for('train_delay_4') }}'">Launch Prediction</button></a>
+        <div style="flex:1"></div>
+        <div class="chip">Model v3.2</div>
+        <div class="chip">Latency 23ms</div>
+      </div>
+
+      <div class="hud">
+        <div>Nearest station: <strong style="color:#fff;margin-left:8px">Central</strong></div>
+        <div style="margin-left:auto;opacity:0.85">Aurora Grid • Night Mode</div>
+      </div>
+
+      <div class="holo"></div>
+    </div>
+  </div>
+
+<script>
+/* Canvas: neon particles + rain + parallax */
+const c = document.getElementById('bg');
+const ctx = c.getContext('2d');
+let W, H, DPR = Math.max(1, window.devicePixelRatio || 1);
+function resize(){ W = c.width = window.innerWidth * DPR; H = c.height = window.innerHeight * DPR; c.style.width = window.innerWidth + 'px'; c.style.height = window.innerHeight + 'px'; ctx.scale(DPR,DPR); }
+resize(); window.addEventListener('resize', ()=>{ ctx.setTransform(1,0,0,1,0,0); resize(); });
+
+/* particles for neon city glow */
+const NP = 60;
+let particles = [];
+for(let i=0;i<NP;i++){
+  particles.push({
+    x: Math.random()*window.innerWidth,
+    y: Math.random()*window.innerHeight,
+    r: Math.random()*2.5+0.6,
+    sx: (Math.random()-0.5)*0.2,
+    sy: (Math.random()*0.6+0.2),
+    color: Math.random()>0.5? 'rgba(111,241,255,'+(0.06+Math.random()*0.35)+')' : 'rgba(160,75,255,'+(0.06+Math.random()*0.35)+')'
+  });
+}
+
+/* rain drops */
+const DROPS = 260;
+let drops = [];
+for(let i=0;i<DROPS;i++){
+  drops.push({
+    x: Math.random()*window.innerWidth,
+    y: Math.random()*window.innerHeight,
+    len: Math.random()*20+8,
+    speed: Math.random()*5+6,
+    alpha: 0.06 + Math.random()*0.12,
+    wob: Math.random()*0.6
+  });
+}
+
+/* mouse parallax */
+let mx=0,my=0;
+window.addEventListener('mousemove', e=>{ mx = (e.clientX - window.innerWidth/2)/window.innerWidth; my = (e.clientY - window.innerHeight/2)/window.innerHeight; });
+
+function draw(){
+  ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+
+  // subtle vignette
+  let g = ctx.createLinearGradient(0,0,0,window.innerHeight);
+  g.addColorStop(0,'rgba(6,6,10,0.0)');
+  g.addColorStop(1,'rgba(0,0,0,0.45)');
+  ctx.fillStyle = g; ctx.fillRect(0,0,window.innerWidth,window.innerHeight);
+
+  // city neon glow blobs (big soft circles)
+  for(let i=0;i<8;i++){
+    ctx.beginPath();
+    let gx = (i%2===0? window.innerWidth*0.14: window.innerWidth*0.86) + Math.sin(Date.now()/4000 + i)*60* (i%2? -1:1);
+    let gy = window.innerHeight* (0.18 + (i*0.07));
+    let rad = 260 + i*60;
+    let col = (i%3===0)? 'rgba(111,241,255,0.06)': (i%3===1)? 'rgba(160,75,255,0.06)': 'rgba(255,139,75,0.05)';
+    ctx.fillStyle = col;
+    ctx.filter = 'blur(40px)';
+    ctx.arc(gx,gy,rad,0,Math.PI*2);
+    ctx.fill();
+    ctx.beginPath(); ctx.filter='none';
+  }
+
+  // neon particles
+  for(let p of particles){
+    p.x += p.sx + mx*8;
+    p.y += p.sy + my*6;
+    if(p.x< -50) p.x = window.innerWidth+50;
+    if(p.x>window.innerWidth+50) p.x = -50;
+    if(p.y>window.innerHeight+50) p.y = -50;
+    ctx.beginPath();
+    ctx.fillStyle = p.color;
+    ctx.shadowBlur = 18;
+    ctx.shadowColor = p.color;
+    ctx.globalAlpha = 1;
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+  }
+
+  // rain
+  ctx.lineWidth = 1;
+  for(let d of drops){
+    d.x += Math.sin(Date.now()/600 + d.wob) * 0.6;
+    d.y += d.speed;
+    if(d.y > window.innerHeight + 20){ d.y = -30; d.x = Math.random()*window.innerWidth; }
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(200,220,255,'+d.alpha+')';
+    ctx.moveTo(d.x, d.y);
+    ctx.lineTo(d.x - d.len*0.5, d.y + d.len);
+    ctx.stroke();
+
+    // ripple hit near bottom (soft)
+    let hitY = window.innerHeight - 40;
+    if(d.y > hitY){
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(200,220,255,'+ (0.01 + Math.random()*0.02) +')';
+      ctx.arc(d.x, hitY+6, (d.y-hitY)/6, 0, Math.PI*2);
+      ctx.stroke();
+    }
+  }
+
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
