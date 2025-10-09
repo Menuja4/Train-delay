@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk Train Delay Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #0ff0fc;
+            --neon-pink: #ff00ff;
+            --neon-purple: #8a2be2;
+            --dark-bg: #0a0a16;
+            --darker-bg: #050510;
+            --panel-bg: rgba(10, 15, 30, 0.7);
+            --text-glow: 0 0 10px currentColor;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--darker-bg);
+            color: #e0e0ff;
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(10, 15, 30, 0.9) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(10, 15, 30, 0.9) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            opacity: 0.3;
+        }
+
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to bottom, transparent, var(--neon-blue), transparent);
+            box-shadow: 0 0 15px 2px var(--neon-blue);
+            z-index: -1;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { top: 100%; opacity: 0.7; }
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            opacity: 0.1;
+        }
+
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 5%;
+            animation: float 25s infinite linear;
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+        }
+
+        .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            left: 80%;
+            animation: float 20s infinite linear reverse;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+
+        .shape:nth-child(3) {
+            width: 400px;
+            height: 400px;
+            top: 30%;
+            left: 60%;
+            animation: float 30s infinite linear;
+            border-radius: 50% 50% 50% 70% / 50% 50% 70% 60%;
+        }
+
+        @keyframes float {
+            0% { transform: rotate(0deg) translate(0, 0); }
+            100% { transform: rotate(360deg) translate(20px, 20px); }
+        }
+
+        /* Container styling */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            background: var(--panel-bg);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            animation: shimmer 8s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: var(--text-glow);
+            letter-spacing: 3px;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue); }
+            100% { text-shadow: 0 0 15px var(--neon-pink), 0 0 30px var(--neon-pink); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a0a0ff;
+            letter-spacing: 2px;
+            animation: subtitlePulse 4s infinite;
+        }
+
+        @keyframes subtitlePulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Form styling */
+        .form-container {
+            background: var(--panel-bg);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            padding: 2.5rem;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+            animation: borderFlow 3s linear infinite;
+        }
+
+        @keyframes borderFlow {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--neon-blue);
+            text-shadow: var(--text-glow);
+            letter-spacing: 1px;
+        }
+
+        select, input {
+            background: rgba(5, 10, 25, 0.7);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: #e0e0ff;
+            padding: 0.8rem 1rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        select option {
+            background: var(--dark-bg);
+        }
+
+        /* Button styling */
+        .submit-btn {
+            grid-column: 1 / -1;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            border: none;
+            color: #050510;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            padding: 1rem 2rem;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 255, 255, 0.4);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Result display */
+        .result-container {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--panel-bg);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .result-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--neon-blue);
+            margin-bottom: 1rem;
+            text-shadow: var(--text-glow);
+            letter-spacing: 2px;
+        }
+
+        .result-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            animation: resultPulse 2s infinite alternate;
+        }
+
+        @keyframes resultPulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        /* Terminal effect */
+        .terminal {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 300px;
+            background: rgba(5, 10, 25, 0.8);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            z-index: 10;
+        }
+
+        .terminal::before {
+            content: 'SYSTEM STATUS';
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--neon-pink);
+        }
+
+        .terminal-line {
+            margin-bottom: 0.2rem;
+            opacity: 0;
+            animation: type 0.1s forwards;
+        }
+
+        @keyframes type {
+            to { opacity: 1; }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .terminal {
+                width: calc(100% - 40px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-grid"></div>
+    <div class="scan-line"></div>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>TRAIN DELAY PREDICTOR</h1>
+            <p class="subtitle">NEURAL NETWORK ANALYSIS • REAL-TIME FORECASTING</p>
+        </div>
+
+        <div class="form-container">
+            <form id="delayForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="trainName">TRAIN NAME</label>
+                        <select id="trainName" name="trainName">
+                            <option value="Udarata Menike">Udarata Menike</option>
+                            <option value="Podi Menike">Podi Menike</option>
+                            <option value="Ruhunu Kumari">Ruhunu Kumari</option>
+                            <option value="Yal Devi">Yal Devi</option>
+                            <option value="Udaya Devi">Udaya Devi</option>
+                            <option value="Rajarata Rejini">Rajarata Rejini</option>
+                            <option value="Intercity Express">Intercity Express</option>
+                            <option value="Samudra Devi">Samudra Devi</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="route">ROUTE</label>
+                        <select id="route" name="route">
+                            <option value="Colombo–Kandy">Colombo–Kandy</option>
+                            <option value="Colombo–Badulla">Colombo–Badulla</option>
+                            <option value="Colombo–Matara">Colombo–Matara</option>
+                            <option value="Colombo–Jaffna">Colombo–Jaffna</option>
+                            <option value="Colombo–Batticaloa">Colombo–Batticaloa</option>
+                            <option value="Colombo–Anuradhapura">Colombo–Anuradhapura</option>
+                            <option value="Kandy–Colombo">Kandy–Colombo</option>
+                            <option value="Matara–Colombo">Matara–Colombo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="distance">DISTANCE (KM)</label>
+                        <input type="number" id="distance" name="distance" value="121" min="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="departure">DEPARTURE HOUR (0-23)</label>
+                        <input type="number" id="departure" name="departure" value="6" min="0" max="23">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="temperature">TEMPERATURE (°C)</label>
+                        <input type="number" id="temperature" name="temperature" value="25" min="-10" max="50">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="weather">WEATHER</label>
+                        <select id="weather" name="weather">
+                            <option value="sunny">Sunny</option>
+                            <option value="rainy">Rainy</option>
+                            <option value="cloudy">Cloudy</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="submit-btn">CALCULATE DELAY</button>
+                </div>
+            </form>
+			 {% if delay is not none %}
+        <h3>Predicted Delay: {{ delay }} minutes</h3>
+    {% endif %}
+        </div>
+
+        <div class="result-container" id="resultContainer">
+            <div class="result-title">PREDICTED DELAY</div>
+            <div class="result-value" id="resultValue">0 MINUTES</div>
+        </div>
+    </div>
+
+    <div class="terminal" id="terminal">
+        <div class="terminal-line">> INITIALIZING SYSTEM...</div>
+        <div class="terminal-line">> LOADING NEURAL NETWORK...</div>
+        <div class="terminal-line">> CONNECTING TO DATABASE...</div>
+        <div class="terminal-line">> SYSTEM READY</div>
+        <div class="terminal-line">> AWAITING USER INPUT...</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('delayForm');
+            const resultContainer = document.getElementById('resultContainer');
+            const resultValue = document.getElementById('resultValue');
+            const terminal = document.getElementById('terminal');
+            
+            // Animate terminal lines
+            const terminalLines = document.querySelectorAll('.terminal-line');
+            terminalLines.forEach((line, index) => {
+                setTimeout(() => {
+                    line.style.animationDelay = `${index * 0.5}s`;
+                }, 100);
+            });
+            
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(form);
+                const trainName = formData.get('trainName');
+                const route = formData.get('route');
+                const distance = parseInt(formData.get('distance'));
+                const departure = parseInt(formData.get('departure'));
+                const temperature = parseInt(formData.get('temperature'));
+                const weather = formData.get('weather');
+                
+                // Show loading state
+                resultValue.textContent = "ANALYZING...";
+                resultContainer.classList.add('visible');
+                
+                // Simulate processing delay
+                setTimeout(() => {
+                    // Calculate delay
+                    const delay = calculateDelay(trainName, route, distance, departure, temperature, weather);
+                    
+                    // Display result with animation
+                    resultValue.textContent = `${delay} MINUTES`;
+                    
+                    // Add new terminal entry
+                    const newEntry = document.createElement('div');
+                    newEntry.className = 'terminal-line';
+                    newEntry.textContent = `> DELAY PREDICTION: ${delay} MINUTES`;
+                    terminal.appendChild(newEntry);
+                    terminal.scrollTop = terminal.scrollHeight;
+                }, 1500);
+            });
+         
+            
+            // Add random glitch effect occasionally
+            setInterval(() => {
+                if (Math.random() < 0.02) { // 2% chance every interval
+                    document.body.style.filter = 'hue-rotate(90deg)';
+                    setTimeout(() => {
+                        document.body.style.filter = 'none';
+                    }, 100);
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
