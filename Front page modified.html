@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Train Delay Predictor — Neo-Noir</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="frontpage.css">
+</head>
+<body>
+    <canvas id="bg"></canvas>
+    <div class="grad"></div>
+
+    <div class="wrap">
+        <div class="card">
+            <div class="edge-neon"></div>
+            <h1 class="title">TRAIN DELAY — PREDICTOR</h1>
+            <div class="subtitle">Cinematic, probabilistic inference for rail networks. Forecast with confidence intervals & live indices.</div>
+
+            <div class="controls">
+                <button class="btn">Status Board</button>
+                <button class="btn">Live Network</button>
+                <a href="train_delay.html" style="text-decoration: none;">
+                    <button class="btn cta">
+                        INITIATE PREDICTION
+                        <span class="launch-icon">⚡</span>
+                    </button>
+                </a>
+                <div style="flex:1"></div>
+                <div class="chip">Model v3.2</div>
+                <div class="chip">Latency 23ms</div>
+            </div>
+
+            <div class="hud">
+                <div>Nearest station: <strong style="color:#fff;margin-left:8px">Central</strong></div>
+                <div style="margin-left:auto;opacity:0.85">Aurora Grid • Night Mode</div>
+            </div>
+
+            <div class="holo"></div>
+        </div>
+    </div>
+
+    <script src="frontpage.js"></script>
+</body>
+</html>

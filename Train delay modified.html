@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk Train Delay Predictor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="train_delay.css">
+</head>
+<body>
+    <div class="cyber-grid"></div>
+    <div class="scan-line"></div>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>TRAIN DELAY PREDICTOR</h1>
+            <p class="subtitle">NEURAL NETWORK ANALYSIS • REAL-TIME FORECASTING</p>
+        </div>
+
+        <div class="form-container">
+            <form id="delayForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="train_name">TRAIN NAME</label>
+                        <select id="train_name" name="train_name" required>
+                            <option value="Udarata Menike">Udarata Menike</option>
+                            <option value="Podi Menike">Podi Menike</option>
+                            <option value="Ruhunu Kumari">Ruhunu Kumari</option>
+                            <option value="Yal Devi">Yal Devi</option>
+                            <option value="Udaya Devi">Udaya Devi</option>
+                            <option value="Rajarata Rejini">Rajarata Rejini</option>
+                            <option value="Intercity Express">Intercity Express</option>
+                            <option value="Samudra Devi">Samudra Devi</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="route">ROUTE</label>
+                        <select id="route" name="route" required>
+                            <option value="Colombo–Kandy">Colombo–Kandy</option>
+                            <option value="Colombo–Badulla">Colombo–Badulla</option>
+                            <option value="Colombo–Matara">Colombo–Matara</option>
+                            <option value="Colombo–Jaffna">Colombo–Jaffna</option>
+                            <option value="Colombo–Batticaloa">Colombo–Batticaloa</option>
+                            <option value="Colombo–Anuradhapura">Colombo–Anuradhapura</option>
+                            <option value="Kandy–Colombo">Kandy–Colombo</option>
+                            <option value="Matara–Colombo">Matara–Colombo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="distance_km">DISTANCE (KM)</label>
+                        <input type="number" id="distance_km" name="distance_km" value="121" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="departure_hour">DEPARTURE HOUR (0-23)</label>
+                        <input type="number" id="departure_hour" name="departure_hour" value="6" min="0" max="23" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="temperature">TEMPERATURE (°C)</label>
+                        <input type="number" id="temperature" name="temperature" value="25" min="-10" max="50" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="weather">WEATHER</label>
+                        <select id="weather" name="weather" required>
+                            <option value="sunny">Sunny</option>
+                            <option value="rainy">Rainy</option>
+                            <option value="cloudy">Cloudy</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="submit-btn">CALCULATE DELAY</button>
+                </div>
+            </form>
+
+            <div class="result-container" id="resultContainer">
+                <div class="result-title">PREDICTED DELAY</div>
+                <div class="result-value" id="resultValue">0 MINUTES</div>
+            </div>
+
+            <div class="status-container" id="statusContainer">
+                <div class="status-title">TRAIN STATUS</div>
+                <div class="status-value status-on-time" id="statusValue">ON TIME</div>
+            </div>
+        </div>
+
+        <div class="hologram-container">
+            <div class="hologram-display">
+                <div class="hologram-grid"></div>
+                <div class="hologram-platform"></div>
+                <div class="hologram-train" id="hologramTrain">
+                    <div class="train-body"></div>
+                    <div class="train-windows">
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                        <div class="window"></div>
+                    </div>
+                    <div class="train-front"></div>
+                    <div class="train-cabin"></div>
+                    <div class="train-details">
+                        <div class="wheel"></div>
+                        <div class="wheel"></div>
+                        <div class="wheel"></div>
+                        <div class="wheel"></div>
+                        <div class="wheel"></div>
+                    </div>
+                    <div class="energy-trail"></div>
+                </div>
+                <div class="hologram-particles" id="hologramParticles"></div>
+            </div>
+            <div class="train-stats">
+                <div class="stat">
+                    <div class="stat-label">MAX SPEED</div>
+                    <div class="stat-value" id="statSpeed">120 KM/H</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">PASSENGERS</div>
+                    <div class="stat-value" id="statPassengers">350</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">POWER OUTPUT</div>
+                    <div class="stat-value" id="statPower">4.5 MW</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">RELIABILITY</div>
+                    <div class="stat-value" id="statReliability">94%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="train_delay.js"></script>
+</body>
+</html>
