@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Weather Oracle — Neo-Noir Forecast</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <canvas id="bg"></canvas>
+    <div class="grad"></div>
+
+    <!-- Weather App Header -->
+    <header class="cyber-header">
+        <nav class="header-nav">
+            <div class="logo-section">
+                <div class="main-logo">WEATHER ORACLE</div>
+                <div class="nav-links">
+                    <a href="#" class="nav-link">FORECAST</a>
+                    <a href="#" class="nav-link highlight-link">LIVE RADAR</a>
+                    <a href="#" class="nav-link">ALERTS</a>
+                    <a href="#" class="nav-link">MAPS</a>
+                    <a href="#" class="nav-link">HISTORY</a>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="weather-badge">
+                    <div class="temp-indicator"></div>
+                    CURRENT: 23°C
+                </div>
+                <a href="#" class="nav-link">SIGN UP</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Weather Content -->
+    <div class="wrap">
+        <div class="card">
+            <div class="edge-neon"></div>
+            <h1 class="title">WEATHER ORACLE</h1>
+            <div class="subtitle">Advanced AI-powered weather forecasting with 99.8% accuracy. Real-time predictions for your location.</div>
+
+            <div class="controls">
+                <button class="btn">Hourly Forecast</button>
+                <button class="btn">7-Day Outlook</button>
+                <button class="btn cta" onclick="window.location.href='weather_forecast.html'">Get Forecast</button>
+                <div style="flex:1"></div>
+                <div class="chip">AI Model v4.1</div>
+                <div class="chip">99.8% Accuracy</div>
+            </div>
+
+            <!-- Weather Preview -->
+            <div class="weather-grid">
+                <div class="weather-card">
+                    <div class="weather-icon">☀️</div>
+                    <div class="temp-display">23°C</div>
+                    <div style="color: #bfc5d0;">Sunny</div>
+                    <div style="font-size: 0.8em; color: #9aa3b2; margin-top: 5px;">Feels like 25°C</div>
+                </div>
+                <div class="weather-card">
+                    <div class="weather-icon">🌤️</div>
+                    <div class="temp-display">21°C</div>
+                    <div style="color: #bfc5d0;">Partly Cloudy</div>
+                    <div style="font-size: 0.8em; color: #9aa3b2; margin-top: 5px;">Tomorrow</div>
+                </div>
+                <div class="weather-card">
+                    <div class="weather-icon">🌧️</div>
+                    <div class="temp-display">18°C</div>
+                    <div style="color: #bfc5d0;">Rain Expected</div>
+                    <div style="font-size: 0.8em; color: #9aa3b2; margin-top: 5px;">In 2 days</div>
+                </div>
+            </div>
+
+            <div class="hud">
+                <div>Current location: <strong style="color:#fff;margin-left:8px">Colombo, LK</strong></div>
+                <div style="margin-left:auto;opacity:0.85">Last updated: 2 min ago</div>
+            </div>
+
+            <div class="holo"></div>
+        </div>
+    </div>
+
+    <!-- Weather App Footer -->
+    <footer class="cyber-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">WEATHER ORACLE</div>
+                <p class="footer-tagline">
+                    Next-generation weather prediction powered by neural networks. 
+                    Get hyper-local forecasts with military-grade accuracy and real-time updates.
+                </p>
+                <div class="email-signup">
+                    <input type="email" class="email-input" placeholder="Enter your email" value="jayavihan2003@gmail.com">
+                    <button class="signup-btn">GET ALERTS</button>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>WEATHER DATA</h3>
+                <ul class="footer-links">
+                    <li><a href="mailto:jayavihan2003@gmail.com">Weather Alerts</a></li>
+                    <li><a href="#">Satellite Imagery</a></li>
+                    <li><a href="#">Radar Maps</a></li>
+                    <li><a href="#">Historical Data</a></li>
+                    <li><a href="#">API Access</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>SUPPORT</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Accuracy Policy</a></li>
+                    <li><a href="#">Service Status</a></li>
+                    <li><a href="#">Data Sources</a></li>
+                    <li><a href="#">Bug Reports</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>DEVELOPER</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Weather API</a></li>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Integration Guide</a></li>
+                    <li><a href="#">Data Licensing</a></li>
+                    <li><a href="#">Partner Program</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-credits">
+                <span>2025 | Weather Oracle | Meteorological AI Systems</span>
+                <span class="powered-by">Powered by NeuralCast AI</span>
+            </div>
+            <div>v4.1.2 | 99.8% Accuracy</div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
