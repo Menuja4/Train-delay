@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Train Delay Predictor — Neo-Noir</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <canvas id="bg"></canvas>
+    <div class="grad"></div>
+
+    <!-- Train Delay Predictor Header -->
+    <header class="cyber-header">
+        <nav class="header-nav">
+            <div class="logo-section">
+                <div class="main-logo">TRAIN DELAY</div>
+                <div class="nav-links">
+                    <a href="#" class="nav-link">PREDICTOR</a>
+                    <a href="#" class="nav-link highlight-link">LIVE MAP</a>
+                    <a href="#" class="nav-link">SCHEDULES</a>
+                    <a href="#" class="nav-link">NETWORK</a>
+                    <a href="#" class="nav-link">HISTORY</a>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="status-badge">
+                    <div class="status-indicator"></div>
+                    LIVE • 25ms
+                </div>
+                <a href="#" class="nav-link">SIGN UP</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Train Delay Predictor Content -->
+    <div class="wrap">
+        <div class="card">
+            <div class="edge-neon"></div>
+            <h1 class="title">TRAIN DELAY PREDICTOR</h1>
+            <div class="subtitle">AI-powered real-time train delay forecasting with 98.7% accuracy. Predictive analytics for rail network optimization.</div>
+
+            <div class="controls">
+                <button class="btn">Live Status</button>
+                <button class="btn">Network Map</button>
+                <button class="btn cta" onclick="window.location.href='final_train_delay_4.html'">Predict Delay</button>
+                <div style="flex:1"></div>
+                <div class="chip">AI Model v3.2</div>
+                <div class="chip">98.7% Accuracy</div>
+            </div>
+
+            <!-- Train Status Preview -->
+            <div class="status-grid">
+                <div class="status-card">
+                    <div class="status-icon">🚄</div>
+                    <div class="delay-display">+5min</div>
+                    <div style="color: #bfc5d0;">Udarata Menike</div>
+                    <div style="font-size: 0.8em; color: #9aa3b2; margin-top: 5px;">Colombo - Kandy</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-icon">🚆</div>
+                    <div class="delay-display">On Time</div>
+                    <div style="color: #bfc5d0;">Ruhunu Kumari</div>
+                    <div style="font-size: 0.8em; color: #9aa3b2; margin-top: 5px;">Colombo - Matara</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-icon">🚇</div>
+                    <div class="delay-display" style="color: #ff6b6b;">+15min</div>
+                    <div style="color: #bfc5d0;">Yal Devi</div>
+                    <div style="font-size: 0.8em; color: #9aa3b2; margin-top: 5px;">Colombo - Jaffna</div>
+                </div>
+            </div>
+
+            <div class="hud">
+                <div>Active trains: <strong style="color:#fff;margin-left:8px">47</strong></div>
+                <div style="margin-left:auto;opacity:0.85">Last updated: 30 sec ago</div>
+            </div>
+
+            <div class="holo"></div>
+        </div>
+    </div>
+
+    <!-- Train Delay Predictor Footer -->
+    <footer class="cyber-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">TRAIN DELAY</div>
+                <p class="footer-tagline">
+                    Advanced AI-powered train delay prediction system. 
+                    Real-time forecasting with machine learning for optimal rail network performance.
+                </p>
+                <div class="email-signup">
+                    <input type="email" class="email-input" placeholder="Enter your email" value="jayavihan2003@gmail.com">
+                    <button class="signup-btn">GET ALERTS</button>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>RAIL DATA</h3>
+                <ul class="footer-links">
+                    <li><a href="mailto:jayavihan2003@gmail.com">Delay Alerts</a></li>
+                    <li><a href="#">Live Tracking</a></li>
+                    <li><a href="#">Network Maps</a></li>
+                    <li><a href="#">Historical Data</a></li>
+                    <li><a href="#">API Access</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>SUPPORT</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Accuracy Policy</a></li>
+                    <li><a href="#">Service Status</a></li>
+                    <li><a href="#">Data Sources</a></li>
+                    <li><a href="#">Bug Reports</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>DEVELOPER</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Rail API</a></li>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Integration Guide</a></li>
+                    <li><a href="#">Data Licensing</a></li>
+                    <li><a href="#">Partner Program</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-credits">
+                <span>2025 | Train Delay Predictor | Rail Network AI Systems</span>
+                <span class="powered-by">Powered by RailCast AI</span>
+            </div>
+            <div>v3.2.1 | 98.7% Accuracy</div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
